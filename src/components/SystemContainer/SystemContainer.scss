@@ -1,0 +1,44 @@
+@use "/src/styles/partials/gloabal" as *;
+
+body {
+    background: $rp-base-main;
+    color: $rp-text-main;
+    margin: 0 2rem;
+}
+
+.error-bg {
+    background: $rp-love-main;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.system-container {
+    display: flex;
+    flex-direction: column;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: $rp-iris-main;
+    max-width: 100%;
+    @include tablet {
+        max-width: 33%;
+    }
+    &__image {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        &--img {
+            width: auto;
+            height: 5rem;
+        }
+    }
+    &__content {
+        margin-left: 1rem;
+        display: flex;
+        align-items: baseline;
+        span {
+            margin-left: 0.2rem;
+        }
+    }
+}

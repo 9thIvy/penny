@@ -28,16 +28,16 @@ const LandingPage: FunctionalComponent = () => {
 
   return (
     <>
-      <h1>Landing Page</h1>
+      <h1>My Systems</h1>
       {systems.length > 0 ? (
         systems.map((system, index) => (
-          // Pass system data to SystemContainer
           <SystemContainer
             key={index}
             name={system.name || "Unknown Name"}
             author={system.author || "Unknown Author"}
             version={system.version || "Unknown Version"}
             location={system.location || "Unknown Location"}
+            image={system.image || "Unknown"}
           />
         ))
       ) : (

@@ -18,7 +18,9 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": {
+        "img-src": "https://gitlab.com/samuelpenn/yags/ blob: data:"
+      }
     }
   },
   "bundle": {

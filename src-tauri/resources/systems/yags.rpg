@@ -1,5 +1,6 @@
 {
 	"Name":"Yags",
 	"Author":"Samuel Penn",
-	"Version":0.8.0,
+	"Version":"0.8.0",
+	"backgroundImage":"https://gitlab.com/samuelpenn/yags/-/raw/master/src/core/sheets/logo.svg?ref_type=heads"
 }
