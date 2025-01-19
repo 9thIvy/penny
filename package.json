@@ -13,6 +13,7 @@
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
     "preact": "^10.25.1",
+    "preact-router": "^4.1.2",
     "sass": "^1.83.0"
   },
   "devDependencies": {
