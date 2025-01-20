@@ -1,6 +1,7 @@
 import { FunctionalComponent } from "preact";
 import { useState, useEffect } from "preact/hooks";
-import { getSystems } from "../../apis/tauricommands";
+import { getSystems, getSystemsFallback } from "../../apis/tauricommands";
+import "./LadingPage.scss";
 import SystemContainer from "../../components/SystemContainer/SystemContainer";
 
 const LandingPage: FunctionalComponent = () => {
@@ -11,14 +12,22 @@ const LandingPage: FunctionalComponent = () => {
     const fetchSystemsData = async () => {
       try {
         const response = await getSystems();
-        setSystems(response);
-        console.log("Systems:", response);
+        if (response.length === 0) {
+          //usually cause its web context
+          const fallbackData = await getSystemsFallback();
+          setSystems(fallbackData);
+        } else {
+          setSystems(response);
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching systems:", error);
+        const fallbackData = await getSystemsFallback();
+        setSystems(fallbackData);
       } finally {
         setLoading(false);
       }
     };
+
     fetchSystemsData();
   }, []);
 
@@ -28,7 +37,9 @@ const LandingPage: FunctionalComponent = () => {
 
   return (
     <>
-      <h1>My Systems</h1>
+      <div className={"landingpage-header"}>
+        <h1>My Systems</h1>
+      </div>
       {systems.length > 0 ? (
         systems.map((system, index) => (
           <SystemContainer

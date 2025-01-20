@@ -1,0 +1,12 @@
+@use "/src/styles/partials/gloabal" as *;
+.header {
+    &__back-arrow {
+        margin-top: 1rem;
+        transform: scale(1.5);
+        inherits: color;
+
+        &:hover {
+            color: $rp-foam-main;
+        }
+    }
+}

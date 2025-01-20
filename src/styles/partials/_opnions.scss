@@ -1,9 +1,15 @@
+@use "./colours" as *;
+
 a {
     color: inherit;
     text-decoration: none;
     outline: none;
 }
-
+body {
+    background: $rp-base-main;
+    color: $rp-text-main;
+    margin: 0 2rem;
+}
 ul {
     list-style-type: "";
     padding: 0;

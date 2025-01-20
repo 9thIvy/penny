@@ -24,7 +24,7 @@ const systemContainer: FunctionalComponent<props> = ({
   return (
     <div className={`system-container`}>
       {/* no clue why TS is sobbing about href. it works, so leaving it for now */}
-      <Link href="/character-select">
+      <Link href={`/character-select/?system=${encodeURI(name)}`}>
         <div className={`system-container__image`}>
           <img src={imageUrl} className="system-container__image--img" />
           <h3>{name}</h3>

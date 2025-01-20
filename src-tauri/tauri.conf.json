@@ -19,7 +19,7 @@
     ],
     "security": {
       "csp": {
-        "img-src": "https://gitlab.com/samuelpenn/yags/ blob: data:"
+        "img-src": "https://cdn.picrew.me/shareImg/org blob: data:"
       }
     }
   },

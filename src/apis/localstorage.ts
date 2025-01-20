@@ -32,10 +32,11 @@ export const getChars = () => {
         };
       } catch (error) {
         console.error("Failed to getChars:\n", error);
-        return { key, name: "error", age: "error", gender: "error" };
+        return null; //error
       }
     }
-    return { key, name: "bad", age: "bad", gender: "bad" };
+    console.warn("getChars from localStorage.ts, no characters found.");
+    return null; //no data;
   });
   console.log("Saved Characters: ", characters);
   return characters;

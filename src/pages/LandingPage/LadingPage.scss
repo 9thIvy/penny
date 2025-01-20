@@ -1,0 +1,8 @@
+@use "/src/styles/partials/gloabal" as *;
+.landingpage-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 0.2rem solid $rp-foam-main;
+    margin-bottom: 1rem;
+}
