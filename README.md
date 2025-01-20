@@ -1,7 +1,15 @@
-# Tauri + Preact + Typescript
+# How to build
 
-This template should help get you started developing with Tauri, Preact and Typescript in Vite.
+```npm install```
+```npm run tauri dev```
+This will launch the development server and compile the app. Changes to anything in /src-tauri will trigger a recompile.
 
-## Recommended IDE Setup
+## Dependencies
+- npm
+- tauri
+- rust
+Tauri lists dependencies to build tauri projects.
+https://tauri.app/start/prerequisites/
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+I recommend using the nix-shell, but if that isn't available, packages can be installed according to your distribution.
+Mac and Windows users just need to follow the instructions to install XCode and MS C++ build tools respectively, along with rust.
