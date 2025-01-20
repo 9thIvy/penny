@@ -19,6 +19,7 @@
     "@tauri-apps/plugin-opener": "^2",
     "preact": "^10.25.1",
     "preact-router": "^4.1.2",
+    "react-select": "^5.9.0",
     "sass": "^1.83.0"
   },
   "devDependencies": {

@@ -8,9 +8,12 @@ interface props {
 }
 
 const Header: FunctionalComponent<props> = ({ url }) => {
+  const handleRightClick = (event: MouseEvent) => {
+    event.preventDefault();
+  };
   return (
     <>
-      <Link href={url}>
+      <Link href={url} onContextMenu={handleRightClick}>
         <ArrowBackIcon className="header__back-arrow" />
       </Link>
     </>

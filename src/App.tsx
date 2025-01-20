@@ -5,7 +5,6 @@ import CharacterSelectPage from "./pages/CharacterSelectPage/CharacterSelectPage
 import CharacterEditPage from "./pages/CharacterEditPage/CharacterEditPage";
 import CharacterCreatePage from "./pages/CharacterCreatePage/CharacterCreatePage";
 import CharacterReadPage from "./pages/CharacterReadPage/CharacterReadPage";
-import { useState } from "preact/hooks";
 function App() {
   return (
     <Router>

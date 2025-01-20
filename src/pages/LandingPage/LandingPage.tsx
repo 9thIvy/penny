@@ -12,12 +12,15 @@ const LandingPage: FunctionalComponent = () => {
     const fetchSystemsData = async () => {
       try {
         const response = await getSystems();
-        if (response.length === 0) {
-          //usually cause its web context
+
+        if (Array.isArray(response) && response.length > 0) {
+          setSystems(response);
+          console.log("Successfully loaded from getSystems");
+        } else {
+          console.log("Falling back...");
+          // If it's not an array or it's empty, fall back
           const fallbackData = await getSystemsFallback();
           setSystems(fallbackData);
-        } else {
-          setSystems(response);
         }
       } catch (error) {
         console.error("Error fetching systems:", error);
@@ -32,9 +35,8 @@ const LandingPage: FunctionalComponent = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
-
   return (
     <>
       <div className={"landingpage-header"}>

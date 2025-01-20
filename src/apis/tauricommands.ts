@@ -1,4 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
+import { exists, BaseDirectory, readFile, create } from "@tauri-apps/plugin-fs";
+import { appDataDir } from "@tauri-apps/api/path";
 
 const listFiles = async (directory: string) => {
   try {
@@ -9,15 +11,35 @@ const listFiles = async (directory: string) => {
   }
 };
 
-const getSystems = async (): Promise<any[]> => {
+const getYags = async (): Promise<any[]> => {
   try {
-    const data = await invoke<string>("get_systems");
-    console.log("Loaded systems. Data:\n ", data);
+    const data = await invoke<string>("get_yags");
+    console.log("Loaded yags. Data:\n ", data);
     const systems: any[] = JSON.parse(data);
     return systems;
   } catch (error) {
-    console.error("Failed to load systems: ", error);
+    console.error("Failed to load yags: ", error);
     return [];
+  }
+};
+
+const getSystems = async (): Promise<any[]> => {
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/9thIvy/dime/refs/heads/main/yags.rpg",
+    );
+    const response2 = await fetch(
+      "https://raw.githubusercontent.com/9thIvy/dime/refs/heads/main/cringe.rpg",
+    );
+
+    const data = await response.json();
+    const data2 = await response2.json();
+
+    console.log("Loaded systems. Data:\n", data);
+    return [data, data2];
+  } catch (error) {
+    console.error("Failed to get systems: ", error);
+    return getSystemsFallback();
   }
 };
 
@@ -29,6 +51,345 @@ const getSystemsFallback = (): Promise<any[]> => {
       author: "Samuel Penn",
       version: "0.8.0",
       characterCreation: {
+        basic_info: [
+          {
+            name: "age",
+            description: "How old your character is.",
+            area: "basic",
+            input_type: "text",
+          },
+          {
+            name: "gender",
+            description: "The gender of your character.",
+            area: "basic",
+            input_type: "text",
+          },
+          {
+            name: "name",
+            description: "The name of your character.",
+            area: "basic",
+            input_type: "text",
+          },
+          {
+            name: "wealth/status",
+            description: "The wealth or status of your character.",
+            area: "basic",
+            input_type: "text",
+          },
+          {
+            name: "origin/nationality",
+            description: "The origin or nationality of your character.",
+            area: "basic",
+            input_type: "text",
+          },
+          {
+            name: "height/weight",
+            description: "The height and weight of your character.",
+            area: "basic",
+            input_type: "text",
+          },
+        ],
+        attributes_info: [
+          {
+            metainfo: {
+              append: false,
+              formula: "1",
+              "formula-cost": "Attributes",
+            },
+          },
+          {
+            name: "strength",
+            description:
+              "Strength measures a character's ability to hurt,\nbreak and lift things. Some effects, such as how much you can\ncarry, are based on the square of your strength.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "health",
+            description:
+              "Health is a measure of endurance and fitness. Checks\nto remain alive after being injured, resisting poison and\navoiding fatigue are all based on health.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "agility",
+            description:
+              "Quickness and acrobatic ability are measured by\nagility. It is also used for brawling, but not melee or missile\nweapons. Athletes, cat burglars and martial artists require a\ngood agility.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "dexterity",
+            description:
+              "The dexterity of a character defines their hand-eye\ncoordination, sleight-of-hand, and skill with melee weapons,\npistols, thrown weapons and driving. Thieves, warriors and\nrace car drivers need a good dexterity.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "perception",
+            description:
+              "Perception is a measure of general alertness and\nsensory ability. High perception characters have good senses\n(vision, hearing) and observational ability. Use of rifles and\nbows comes under Perception.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "intelligence",
+            description:
+              "Intelligence is a measure of wit, cunning,\nmemory and intuition. Intelligence is used to know and\nremember things, to study and for logic. Sages, researchers and\nscientists will use intelligence a lot.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "empathy",
+            description:
+              "Empathy is the ability to understand other people.\nA high empathy does not necessarily make you charismatic,\nbut a charismatic person will need a high empathy in order to\nbe able to react to and manipulate another's emotions.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "will",
+            description:
+              "Strength of will is used to overcome base instincts, such\nas fear and lust. If you have a high will, you are more resistant\nto magic, are less gullible and tend to be a good liar, making\nit useful for con artists and supernatural investigators.",
+            area: "attributes",
+            input_type: "number",
+            default: 3,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+        ],
+        attributes_secondary_info: [
+          {
+            name: "size",
+            description:
+              "Size defaults to five for adult humans, with most adults\nranging from four to six. Size governs how much damage a\ncreature can soak up. A blue whale is about size 21. It cannot\nbe raised with experience.",
+            area: "secondary_attributes",
+            input_type: "select",
+            options: [4, 5, 6],
+          },
+          {
+            name: "Soak",
+            description:
+              "Soak represents the character's ability to resist damage.",
+            area: "secondary_attributes",
+            input_type: "number",
+            value: 12,
+          },
+          {
+            name: "Move",
+            description: "Move is calculated as strength + agility + 1.",
+            area: "secondary_attributes",
+            input_type: "number",
+            calculation: {
+              formula: "strength + agility + 1",
+              dependencies: ["strength", "agility"],
+            },
+          },
+        ],
+        skills: [
+          {
+            metainfo: {
+              append: true,
+              "append-input_type": "number",
+              "append-default": 0,
+              formula: "n -> n+1",
+              "formula-cost": "Experience",
+            },
+          },
+          {
+            name: "athletics",
+            description:
+              "Athletics reflects your character's physical prowess.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "awareness",
+            description: "Awareness measures your character's perceptiveness.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "brawl",
+            description:
+              "Brawl represents your character's fighting skill in close combat.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "charm",
+            description:
+              "Charm measures your character's ability to win others over.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "guile",
+            description:
+              "Guile reflects your character's ability to deceive others.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "sleight",
+            description:
+              "Sleight represents your character's ability to perform tricks and manipulations.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "stealth",
+            description:
+              "Stealth reflects your character's ability to move unnoticed.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+          {
+            name: "throw",
+            description:
+              "Throw represents your character's fighting skill in ranged combat.",
+            area: "skills",
+            input_type: "number",
+            default: 2,
+            secondary: {
+              name: "xp",
+              input_type: "number",
+            },
+          },
+        ],
+        techniques: {
+          metainfo: {
+            append: true,
+            "append-input_type": "number",
+            "append-default": 0,
+            formula: "1",
+            "formula-cost": "Experience",
+          },
+        },
+
+        advantages_and_traits: {
+          name: "Advantages and Traits",
+          area: "advantages_and_traits",
+          input_type: "area_text",
+        },
+
+        combat: [
+          {
+            name: "Initiative",
+            area: "combat-overview",
+            formula: "agility * 4 + 1d20",
+          },
+          {
+            name: "Combat Move",
+            area: "combat-overview",
+            formula: "0.5 * Move",
+          },
+          {
+            name: "Max Defenses",
+            area: "combat-overview",
+            formula: "(agility + perception) * 0.5",
+          },
+          {
+            name: "Max Load",
+            area: "combat-overview",
+            formula: "strength * strength",
+          },
+          {
+            name: "Wounds",
+            area: "hp",
+            input_type: "radial",
+            options: ["OK", 0, -5, -10, -15, -25, -40],
+          },
+          {
+            name: "Stuns",
+            area: "hp",
+            input_type: "radial",
+            options: ["OK", 0, -5, -10, -15, -25, -40],
+          },
+          {
+            name: "Fatigue",
+            area: "hp",
+            input_type: "radial",
+            options: ["OK", 0, -5, -10, -15, -25, -40],
+          },
+          {
+            name: "Punch",
+            area: "actions",
+            "formula-tohit": "brawl * strength + 1d20",
+            "formula-damage": "1d20 + 1 + strength",
+          },
+        ],
         categories: [
           {
             name: "Power Level",
@@ -142,7 +503,7 @@ const getSystemsFallback = (): Promise<any[]> => {
                   },
                 },
                 description:
-                  "Whether it's Space Opera, Chanbara, Wuxia or a Hollywood Action Film, there is room in fiction for the larger than life action hero. Almost super-heroic in their abilities, they are capable of taking on a small army by themselves. If you are playing this sort of campaign, then your character will be significantly better than everyone else even in your weakest area. In addition to the above, you start the game with three free points of Luck.",
+                  "Whether it's Space Opera, Chanbara, Wuxia or a\n                            Hollywood Action Film, there is room in fiction for the larger than life action hero. Almost super-heroic in their abilities, they are capable of taking on a small army by themselves. If you are playing this sort of campaign, then your character will be significantly better than everyone else even in your weakest area. In addition to the above, you start the game with three free points of Luck.",
               },
             ],
           },
@@ -200,4 +561,5 @@ export {
   getSystems,
   getCharacters,
   getSystemsFallback,
+  getYags,
 };
