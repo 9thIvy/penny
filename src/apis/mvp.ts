@@ -26,6 +26,19 @@ interface Skill<T = any> {
   value?: number;
 }
 
+interface Character {
+  name: string;
+  age: string;
+  gender: string;
+  profession: string;
+  system: string;
+  attributes: string[];
+  image?: string;
+  skills0: Skill[]; //skills part of yags
+  skills1?: Skill[]; // techniques part of yags
+  largeInput?: string;
+}
+
 interface RPGSystem {
   name: string;
   author: string;
@@ -62,11 +75,52 @@ const downloadSystems = async (): Promise<boolean> => {
   }
 };
 
+const getCharacters = (name?: string) => {
+  const storedCharacters = localStorage.getItem("characters");
+  if (!storedCharacters) {
+    return [];
+  }
+  if (name) {
+    const characters: Character[] = JSON.parse(storedCharacters);
+    const filteredCharacters = characters.filter(
+      (character) => character.system === name,
+    );
+    return filteredCharacters;
+  } else {
+    return storedCharacters;
+  }
+};
+
+const saveCharacter = (newCharacter: Character) => {
+  const storedCharacters = localStorage.getItem("characters");
+  let characters: Character[] = storedCharacters
+    ? JSON.parse(storedCharacters)
+    : [];
+
+  const existingIndex = characters.findIndex(
+    (character) => character.name === newCharacter.name,
+  );
+
+  if (existingIndex !== -1) {
+    characters[existingIndex] = newCharacter;
+  } else {
+    characters.push(newCharacter);
+  }
+  localStorage.setItem("characters", JSON.stringify(characters));
+};
+
+const setCurrentCharacter = (name: Character) => {
+  localStorage.setItem("currentCharacter", JSON.stringify(name));
+};
+const getCurrentCharacter = () => {
+  return localStorage.getItem("currentCharacter");
+};
+
 const setCurrentSystem = (name: string) => {
   localStorage.setItem("currentSystem", name);
 };
 const getCurrentSystem = () => {
-  localStorage.getItem("currentSystem");
+  return localStorage.getItem("currentSystem");
 };
 
 const cachedSystems = (): boolean => {
@@ -82,11 +136,15 @@ const loadSystems = (): RPGSystem[] => {
   return storedData ? JSON.parse(storedData) : dummySystem;
 };
 
-export type { RPGSystem, Skill };
+export type { RPGSystem, Skill, Character };
 export {
   downloadSystems,
   loadSystems,
   cachedSystems,
   setCurrentSystem,
   getCurrentSystem,
+  getCurrentCharacter,
+  setCurrentCharacter,
+  getCharacters,
+  saveCharacter,
 };

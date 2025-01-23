@@ -1,7 +1,7 @@
 import { FunctionalComponent } from "preact";
-import { Link } from "preact-router";
 import { RPGSystem, setCurrentSystem } from "../../apis/mvp";
 import "./SystemContainer.scss";
+import { route } from "preact-router";
 
 interface props {
   system: RPGSystem;
@@ -13,17 +13,17 @@ const SystemContainer: FunctionalComponent<props> = ({ system }) => {
 
   const handleClick = () => {
     setCurrentSystem(system.name);
+    route("character-select");
   };
 
   return (
     <div className={`system-container`}>
-      {/* Ignore href error */}
-      <Link onCopy={handleClick} href="/character-select">
+      <div className={`psuedo-link`} onClick={handleClick}>
         <div className={`system-container__image`}>
           <img className={`system-container__image--img`} src={imageUrl} />
           <h3>{system.name}</h3>
         </div>
-      </Link>
+      </div>
       <div className={`system-container__content`}>
         <p>{system.author}</p>
         <p>|</p>
