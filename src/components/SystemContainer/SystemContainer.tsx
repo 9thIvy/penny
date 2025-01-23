@@ -1,42 +1,35 @@
 import { FunctionalComponent } from "preact";
-import { Link } from "preact-router";
+import { RPGSystem, setCurrentSystemName } from "../../apis/mvp";
 import "./SystemContainer.scss";
+import { route } from "preact-router";
 
 interface props {
-  name: string;
-  author: string;
-  version: string;
-  image: string;
-  location: string;
+  system: RPGSystem;
 }
 
-const systemContainer: FunctionalComponent<props> = ({
-  name,
-  author,
-  version,
-  location,
-  image,
-}) => {
-  const isFallbackImage = image === "Unknown";
-  const imageUrl = isFallbackImage ? "/src/assets/preact.svg" : image;
-  console.log(`systemContainer has ${name} at ${location}`);
+const SystemContainer: FunctionalComponent<props> = ({ system }) => {
+  const useFallbackImage = !system.image;
+  const imageUrl = useFallbackImage ? "/src/assets/preact.svg" : system.image;
+
+  const handleClick = () => {
+    setCurrentSystemName(system.name);
+    route("character-select");
+  };
 
   return (
     <div className={`system-container`}>
-      {/* no clue why TS is sobbing about href. it works, so leaving it for now */}
-      <Link href={`/character-select/?system=${encodeURI(name)}`}>
+      <div className={`psuedo-link`} onClick={handleClick}>
         <div className={`system-container__image`}>
-          <img src={imageUrl} className="system-container__image--img" />
-          <h3>{name}</h3>
+          <img className={`system-container__image--img`} src={imageUrl} />
+          <h3>{system.name}</h3>
         </div>
-      </Link>
-
-      <div className="system-container__content">
-        <p>{author}</p>
+      </div>
+      <div className={`system-container__content`}>
+        <p>{system.author}</p>
         <p>|</p>
-        <p>{version}</p>
+        <p>{system.version}</p>
       </div>
     </div>
   );
 };
-export default systemContainer;
+export default SystemContainer;

@@ -20,7 +20,8 @@
     "preact": "^10.25.1",
     "preact-router": "^4.1.2",
     "react-select": "^5.9.0",
-    "sass": "^1.83.0"
+    "sass": "^1.83.0",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.3",

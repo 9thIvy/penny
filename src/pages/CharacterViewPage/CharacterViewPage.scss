@@ -1,0 +1,27 @@
+@use "/src/styles/partials/gloabal" as *;
+
+.attributes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dice-out {
+    position: fixed;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: $rp-iris-main;
+    border-radius: 10%;
+    min-width: 2rem;
+    display: flex;
+    justify-content: center;
+    background-color: $rp-overlay-main;
+}
+
+.basic-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

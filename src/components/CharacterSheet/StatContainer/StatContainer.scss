@@ -1,0 +1,34 @@
+@use "/src/styles/partials/gloabal" as *;
+
+.stat-container {
+    width: 100%;
+    max-width: 300px; /* Or whatever max-width you prefer */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+.stat-bottom {
+    display: flex;
+
+    gap: 10px;
+}
+
+.stat-bottom input[type="text"] {
+    width: 30%;
+    border: 0.3rem solid $rp-foam-main;
+    border-radius: 0.5rem;
+    background-color: $rp-surface-main;
+    color: $rp-text-main;
+    outline: none;
+}
+
+.stat-top label {
+    font-weight: bold;
+    font-size: 14px;
+}

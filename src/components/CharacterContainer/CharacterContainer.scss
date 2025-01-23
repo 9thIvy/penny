@@ -1,5 +1,6 @@
 @use "/src/styles/partials/gloabal" as *;
 .character-container {
+    position: relative;
     background: $rp-surface-main;
     display: flex;
     flex-direction: column;
@@ -11,13 +12,21 @@
     @include tablet {
         max-width: 33%;
     }
+    &__rm {
+        /* O.o */
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        color: $rp-love-main;
+        cursor: pointer;
+    }
     &__image {
         margin-top: 1rem;
         margin-left: 1rem;
         display: flex;
         align-items: center;
         gap: 1rem;
-        &--img {
+        &--image {
             width: auto;
             height: 5rem;
         }

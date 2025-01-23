@@ -23,6 +23,7 @@ export const getChars = () => {
     const data = localStorage.getItem(key);
     if (data) {
       try {
+        console.log("data:", data);
         const parsedData = JSON.parse(data);
         return {
           key,

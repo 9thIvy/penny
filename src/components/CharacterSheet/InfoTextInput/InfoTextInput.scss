@@ -1,0 +1,19 @@
+@use "/src/styles/partials/gloabal" as *;
+.info-text-input {
+    display: flex;
+    flex-direction: column;
+    & input {
+        border: 0.3rem solid $rp-gold-main;
+        border-radius: 0.5rem;
+        transition: border-color 0.2s ease-in-out;
+        background-color: $rp-surface-main;
+        color: $rp-text-main;
+        padding: 0.75rem;
+        font-size: 1rem;
+
+        &:focus {
+            outline: none;
+            border-color: $rp-pine-main;
+        }
+    }
+}
