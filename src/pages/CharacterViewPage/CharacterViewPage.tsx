@@ -62,6 +62,16 @@ const CharacterViewPage: FunctionalComponent = () => {
           value={currentChar.age ?? ""}
           onSave={(value: string) => handleSave("age", value)}
         />
+        <InfoTextInput
+          title="Gender"
+          value={currentChar.gender ?? ""}
+          onSave={(value: string) => handleSave("gender", value)}
+        />
+        <InfoTextInput
+          title="Profession"
+          value={currentChar.profession ?? ""}
+          onSave={(value: string) => handleSave("profession", value)}
+        />
       </div>
     </>
   );

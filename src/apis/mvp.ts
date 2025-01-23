@@ -154,7 +154,7 @@ const createNewCharacter = () => {
     age: "",
     gender: "",
     profession: "",
-    system: "Default System",
+    system: getCurrentSystemName() || "oops",
     attributes: [],
     image: "",
     skills0: [],
