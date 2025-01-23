@@ -10,17 +10,11 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.0",
-    "@mui/material": "^6.4.0",
     "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
     "preact": "^10.25.1",
     "preact-router": "^4.1.2",
-    "react-select": "^5.9.0",
-    "sass": "^1.83.0"
+    "sass": "^1.83.4"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.3",

@@ -1,42 +1,35 @@
 import { FunctionalComponent } from "preact";
 import { Link } from "preact-router";
+import { RPGSystem, setCurrentSystem } from "../../apis/mvp";
 import "./SystemContainer.scss";
 
 interface props {
-  name: string;
-  author: string;
-  version: string;
-  image: string;
-  location: string;
+  system: RPGSystem;
 }
 
-const systemContainer: FunctionalComponent<props> = ({
-  name,
-  author,
-  version,
-  location,
-  image,
-}) => {
-  const isFallbackImage = image === "Unknown";
-  const imageUrl = isFallbackImage ? "/src/assets/preact.svg" : image;
-  console.log(`systemContainer has ${name} at ${location}`);
+const SystemContainer: FunctionalComponent<props> = ({ system }) => {
+  const useFallbackImage = !system.image;
+  const imageUrl = useFallbackImage ? "/src/assets/preact.svg" : system.image;
+
+  const handleClick = () => {
+    setCurrentSystem(system.name);
+  };
 
   return (
     <div className={`system-container`}>
-      {/* no clue why TS is sobbing about href. it works, so leaving it for now */}
-      <Link href={`/character-select/?system=${encodeURI(name)}`}>
+      {/* Ignore href error */}
+      <Link onCopy={handleClick} href="/character-select">
         <div className={`system-container__image`}>
-          <img src={imageUrl} className="system-container__image--img" />
-          <h3>{name}</h3>
+          <img className={`system-container__image--img`} src={imageUrl} />
+          <h3>{system.name}</h3>
         </div>
       </Link>
-
-      <div className="system-container__content">
-        <p>{author}</p>
+      <div className={`system-container__content`}>
+        <p>{system.author}</p>
         <p>|</p>
-        <p>{version}</p>
+        <p>{system.version}</p>
       </div>
     </div>
   );
 };
-export default systemContainer;
+export default SystemContainer;
