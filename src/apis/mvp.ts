@@ -147,22 +147,22 @@ const loadSystems = (): RPGSystem[] => {
   return storedData ? JSON.parse(storedData) : dummySystem;
 };
 
-const createNewCharacter = () => {
-  const newCharacter: Character = {
+const createNewCharacter = (): Character => {
+  return {
     id: uuidv4(),
-    name: "New Character",
+    name: "",
     age: "",
     gender: "",
     profession: "",
-    system: getCurrentSystemName() || "oops",
+    system: "Cringe",
     attributes: [],
-    image: "",
-    skills0: [],
+    skills0: [
+      { name: "Crying", extra: 1 },
+      { name: "Sobbing", extra: 1 },
+    ],
     skills1: [],
     largeInput: "",
   };
-
-  return newCharacter;
 };
 
 export type { RPGSystem, Skill, Character };

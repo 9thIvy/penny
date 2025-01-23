@@ -1,45 +1,34 @@
 import { FunctionalComponent } from "preact";
 import "./StatContainer.scss";
 
-interface props {
-  primaryName: string;
-  primaryValue?: string;
-  secondaryName: string;
-  secondaryValue?: string;
-  onSave: (field: string, value: string) => void;
+interface Props {
+  skillName: string;
+  skillExtra: number;
+  skillValue: number;
+  onSave: (field: string, value: number) => void;
 }
 
-const StatContainer: FunctionalComponent<props> = ({
-  primaryName,
-  primaryValue,
-  secondaryName,
-  secondaryValue,
+const StatContainer: FunctionalComponent<Props> = ({
+  skillName,
+  skillExtra,
+  skillValue,
   onSave,
 }) => {
-  const handlePrimaryChange = (e: Event) => {
-    const value = (e.target as HTMLInputElement).value;
-    onSave(primaryName, value);
-  };
-
-  const handleSecondaryChange = (e: Event) => {
-    const value = (e.target as HTMLInputElement).value;
-    onSave(secondaryName, value);
+  const handleSkillChange = (e: Event) => {
+    const value = parseInt((e.target as HTMLInputElement).value, 10);
+    onSave(skillName, value);
   };
 
   return (
     <div className={`stat-container`}>
       <div className={`stat-top`}>
-        <label>{primaryName}</label>
+        <label>{skillName}</label>
       </div>
       <div className={`stat-bottom`}>
-        <input type="text" value={primaryValue} onBlur={handlePrimaryChange} />
+        <input type="text" value={skillValue} onBlur={handleSkillChange} />
         <div>
-          <label>{secondaryName}</label>
-          <input
-            type="text"
-            value={secondaryValue}
-            onBlur={handleSecondaryChange}
-          />
+          <label>Extra</label>
+          <input type="text" value={skillExtra} />
         </div>
       </div>
     </div>
