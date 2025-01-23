@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 const dummySystem = [
   {
     name: "Dummy System",
@@ -25,6 +26,7 @@ interface Skill<T = any> {
 }
 
 interface Character {
+  id: string;
   name: string;
   age: string;
   gender: string;
@@ -106,7 +108,7 @@ const saveCharacter = (newCharacter: Character) => {
     : [];
 
   const existingIndex = characters.findIndex(
-    (character) => character.name === newCharacter.name,
+    (character) => character.id === newCharacter.id,
   );
 
   if (existingIndex !== -1) {
@@ -114,6 +116,7 @@ const saveCharacter = (newCharacter: Character) => {
   } else {
     characters.push(newCharacter);
   }
+
   localStorage.setItem("characters", JSON.stringify(characters));
 };
 
@@ -144,8 +147,27 @@ const loadSystems = (): RPGSystem[] => {
   return storedData ? JSON.parse(storedData) : dummySystem;
 };
 
+const createNewCharacter = () => {
+  const newCharacter: Character = {
+    id: uuidv4(),
+    name: "New Character",
+    age: "",
+    gender: "",
+    profession: "",
+    system: "Default System",
+    attributes: [],
+    image: "",
+    skills0: [],
+    skills1: [],
+    largeInput: "",
+  };
+
+  return newCharacter;
+};
+
 export type { RPGSystem, Skill, Character };
 export {
+  createNewCharacter,
   downloadSystems,
   loadSystems,
   cachedSystems,

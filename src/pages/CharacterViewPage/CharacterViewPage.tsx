@@ -3,44 +3,35 @@ import Header from "../../components/Header/Header";
 import { useEffect, useState } from "preact/hooks";
 import {
   Character,
+  createNewCharacter,
   getCurrentCharacter,
   getCurrentSystemName,
   getSystem,
   RPGSystem,
-  saveCharacter, // make sure saveCharacter is imported
+  saveCharacter,
 } from "../../apis/mvp";
 import InfoTextInput from "../../components/CharacterSheet/InfoTextInput/InfoTextInput";
 
 const CharacterViewPage: FunctionalComponent = () => {
-  const [currentChar, setCurrentChar] = useState<Character>();
-  const [currentSystem, setCurrentSystem] = useState<RPGSystem>();
+  const [currentChar, setCurrentChar] = useState<Character | null>(null);
+  const [currentSystem, setCurrentSystem] = useState<RPGSystem | null>(null);
 
   useEffect(() => {
-    let t = getCurrentSystemName();
-    if (t) {
-      setCurrentSystem(getSystem(t) as unknown as RPGSystem);
-    }
-    t = getCurrentCharacter();
-    if (t) {
-      setCurrentChar(JSON.parse(t));
+    let systemName = getCurrentSystemName();
+    if (systemName) {
+      const system = getSystem(systemName) as unknown as RPGSystem;
+      setCurrentSystem(system);
     }
 
-    let c: Character = {
-      name: currentChar?.name ?? "",
-      age: currentChar?.age ?? "",
-      gender: currentChar?.gender ?? "",
-      profession: currentChar?.profession ?? "",
-      system: currentChar?.system ?? getCurrentSystemName() ?? "Unknown",
-      attributes: currentChar?.attributes ?? currentSystem?.attributes ?? [],
-      image: "",
-      skills0: currentChar?.skills0 ?? currentSystem?.skills0 ?? [],
-      skills1: currentChar?.skills1 ?? currentSystem?.skills1 ?? [],
-      largeInput: currentChar?.largeInput ?? "",
-    };
-    setCurrentChar(c);
+    let charData = getCurrentCharacter();
+    if (charData) {
+      setCurrentChar(JSON.parse(charData));
+    }
+
+    if (!currentChar) {
+      setCurrentChar(createNewCharacter());
+    }
   }, []);
-
-  // console.log(currentChar);
 
   const handleSave = (field: string, value: string) => {
     if (currentChar) {
@@ -50,21 +41,25 @@ const CharacterViewPage: FunctionalComponent = () => {
     }
   };
 
+  if (!currentChar) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className={"chrselHeader"}>
         <Header url="/character-select" />
-        <h1>{`Editing ${currentChar?.name ?? "Character"}`}</h1>
+        <h1>{`Editing ${currentChar.name}`}</h1>
       </div>
       <div>
         <InfoTextInput
           title="Character Name"
-          value={currentChar?.name ?? ""}
+          value={currentChar.name}
           onSave={(value: string) => handleSave("name", value)}
         />
         <InfoTextInput
           title="Age"
-          value={currentChar?.age ?? ""}
+          value={currentChar.age ?? ""}
           onSave={(value: string) => handleSave("age", value)}
         />
       </div>
