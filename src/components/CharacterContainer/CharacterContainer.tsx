@@ -32,6 +32,19 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
     );
 
     localStorage.setItem("characters", JSON.stringify(updatedCharacters));
+    setCurrentCharacter({
+      id: "",
+      name: "",
+      age: "",
+      gender: "",
+      profession: "",
+      system: "",
+      attributes: [],
+      image: "",
+      skills0: [],
+      skills1: [],
+      largeInput: "",
+    });
     window.location.reload();
   };
   return (

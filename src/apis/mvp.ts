@@ -92,7 +92,7 @@ const getCharacters = (name?: string) => {
 };
 
 const getSystem = (name: string) => {
-  const storedSystems = localStorage.getItem("characters");
+  const storedSystems = localStorage.getItem("systems");
   if (storedSystems) {
     const systems: RPGSystem[] = JSON.parse(storedSystems);
     const filteredSystems = systems.filter((system) => system.name === name);

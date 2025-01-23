@@ -1,6 +1,7 @@
 import { FunctionalComponent } from "preact";
 import Header from "../../components/Header/Header";
 import { useEffect, useState } from "preact/hooks";
+import StatContainer from "../../components/CharacterSheet/StatContainer/StatContainer";
 import {
   Character,
   createNewCharacter,
@@ -13,14 +14,50 @@ import {
 import InfoTextInput from "../../components/CharacterSheet/InfoTextInput/InfoTextInput";
 
 const CharacterViewPage: FunctionalComponent = () => {
+  const dummySystem = {
+    name: "Dummy System",
+    author: "No one",
+    version: "0",
+    attributes: ["Gumption", "Chutzpah", "Bravado", "Daring-Do"],
+    skillsThirdColumn: "faith",
+    skills0: [
+      {
+        name: "Crying",
+        extra: 1, //test int input
+      },
+      {
+        name: "Sobbing",
+        extra: 1,
+      },
+    ],
+  };
   const [currentChar, setCurrentChar] = useState<Character | null>(null);
   const [currentSystem, setCurrentSystem] = useState<RPGSystem | null>(null);
-
   useEffect(() => {
     let systemName = getCurrentSystemName();
     if (systemName) {
-      const system = getSystem(systemName) as unknown as RPGSystem;
-      setCurrentSystem(system);
+      const getStoredSystems = async () => {
+        try {
+          const storedSystems = localStorage.getItem("systems");
+          const systems = storedSystems ? JSON.parse(storedSystems) : [];
+          const filteredSystems = systems.filter(
+            (system: RPGSystem) => system.name === systemName,
+          );
+          return filteredSystems;
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getStoredSystems()
+        .then((filteredSystems) => {
+          if (filteredSystems.length > 0) {
+            setCurrentSystem(filteredSystems[0]);
+          } else {
+            setCurrentSystem(dummySystem);
+          }
+        })
+        .catch((error) => console.error(error));
     }
 
     let charData = getCurrentCharacter();
@@ -30,7 +67,6 @@ const CharacterViewPage: FunctionalComponent = () => {
       setCurrentChar(createNewCharacter());
     }
   }, []);
-
   const handleSave = (field: string, value: string) => {
     if (currentChar) {
       const updatedChar = { ...currentChar, [field]: value };
@@ -43,7 +79,6 @@ const CharacterViewPage: FunctionalComponent = () => {
     return <div></div>;
   }
 
-  console.log("currentchar", currentChar);
   return (
     <>
       <div className={"chrselHeader"}>
@@ -71,6 +106,20 @@ const CharacterViewPage: FunctionalComponent = () => {
           value={currentChar.profession}
           onSave={(value: string) => handleSave("profession", value)}
         />
+      </div>
+      <div>
+        {currentSystem && currentSystem.attributes?.length > 0 ? (
+          currentSystem.attributes.map((attribute, index) => (
+            <StatContainer
+              key={index}
+              primaryName={attribute}
+              secondaryName="xp"
+              onSave={(value: string) => handleSave(attribute, value)}
+            />
+          ))
+        ) : (
+          <p>No attributes found.</p>
+        )}
       </div>
     </>
   );
