@@ -26,9 +26,7 @@ const CharacterViewPage: FunctionalComponent = () => {
     let charData = getCurrentCharacter();
     if (charData) {
       setCurrentChar(JSON.parse(charData));
-    }
-
-    if (!currentChar) {
+    } else {
       setCurrentChar(createNewCharacter());
     }
   }, []);
@@ -42,9 +40,10 @@ const CharacterViewPage: FunctionalComponent = () => {
   };
 
   if (!currentChar) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
+  console.log("currentchar", currentChar);
   return (
     <>
       <div className={"chrselHeader"}>
@@ -59,17 +58,17 @@ const CharacterViewPage: FunctionalComponent = () => {
         />
         <InfoTextInput
           title="Age"
-          value={currentChar.age ?? ""}
+          value={currentChar.age}
           onSave={(value: string) => handleSave("age", value)}
         />
         <InfoTextInput
           title="Gender"
-          value={currentChar.gender ?? ""}
+          value={currentChar.gender}
           onSave={(value: string) => handleSave("gender", value)}
         />
         <InfoTextInput
           title="Profession"
-          value={currentChar.profession ?? ""}
+          value={currentChar.profession}
           onSave={(value: string) => handleSave("profession", value)}
         />
       </div>
