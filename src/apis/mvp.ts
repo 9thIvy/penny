@@ -5,16 +5,14 @@ const dummySystem = [
     version: "0",
     attributes: ["Gumption", "Chutzpah", "Bravado", "Daring-Do"],
     skillsThirdColumn: "faith",
-    skills: [
+    skills0: [
       {
         name: "Crying",
-        value: 2,
-        extra: 5, //test int input
+        extra: 1, //test int input
       },
       {
         name: "Sobbing",
-        value: 3,
-        extra: 8,
+        extra: 1,
       },
     ],
   },
@@ -87,8 +85,18 @@ const getCharacters = (name?: string) => {
     );
     return filteredCharacters;
   } else {
-    return storedCharacters;
+    return JSON.parse(storedCharacters);
   }
+};
+
+const getSystem = (name: string) => {
+  const storedSystems = localStorage.getItem("characters");
+  if (storedSystems) {
+    const systems: RPGSystem[] = JSON.parse(storedSystems);
+    const filteredSystems = systems.filter((system) => system.name === name);
+    return filteredSystems;
+  }
+  return dummySystem;
 };
 
 const saveCharacter = (newCharacter: Character) => {
@@ -109,17 +117,17 @@ const saveCharacter = (newCharacter: Character) => {
   localStorage.setItem("characters", JSON.stringify(characters));
 };
 
-const setCurrentCharacter = (name: Character) => {
-  localStorage.setItem("currentCharacter", JSON.stringify(name));
+const setCurrentCharacter = (currentCharacter: Character) => {
+  localStorage.setItem("currentCharacter", JSON.stringify(currentCharacter));
 };
 const getCurrentCharacter = () => {
   return localStorage.getItem("currentCharacter");
 };
 
-const setCurrentSystem = (name: string) => {
+const setCurrentSystemName = (name: string) => {
   localStorage.setItem("currentSystem", name);
 };
-const getCurrentSystem = () => {
+const getCurrentSystemName = () => {
   return localStorage.getItem("currentSystem");
 };
 
@@ -141,8 +149,9 @@ export {
   downloadSystems,
   loadSystems,
   cachedSystems,
-  setCurrentSystem,
-  getCurrentSystem,
+  getSystem,
+  setCurrentSystemName,
+  getCurrentSystemName,
   getCurrentCharacter,
   setCurrentCharacter,
   getCharacters,

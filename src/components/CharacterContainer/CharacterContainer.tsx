@@ -1,6 +1,7 @@
 import { FunctionalComponent } from "preact";
+import { route } from "preact-router";
 import "./CharacterContainer.scss";
-import { Character } from "../../apis/mvp";
+import { Character, setCurrentCharacter } from "../../apis/mvp";
 
 interface props {
   character: Character;
@@ -11,10 +12,16 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
   const imageUrl = useFallbackImage
     ? "/src/assets/preact.svg"
     : character.image;
+
+  const handleClick = () => {
+    setCurrentCharacter(character);
+    route("character-view");
+  };
+
   return (
     <>
       <div className={`character-container`}>
-        <div className={`psuedo-link`}>
+        <div className={`psuedo-link`} onClick={handleClick}>
           <div className={`character-container__image`}>
             <img
               src={imageUrl}

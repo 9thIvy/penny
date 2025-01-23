@@ -1,0 +1,22 @@
+@use "/src/styles/partials/gloabal" as *;
+
+.newCharacterContainer {
+    background: $rp-surface-main;
+    display: flex;
+    color: $rp-muted-main;
+    flex-direction: column;
+    justify-content: center;
+    border: 0.2rem dashed $rp-iris-main;
+    border-radius: 5%;
+    align-items: center;
+    padding: 0 1rem;
+    margin-top: 1rem;
+    @include tablet {
+        min-width: 20rem;
+    }
+
+    &__icon {
+        scale: 2;
+        color: $rp-subtle-main;
+    }
+}
