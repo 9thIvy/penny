@@ -6,6 +6,7 @@ a {
     outline: none;
 }
 body {
+    box-sizing: border-box;
     background: $rp-base-main;
     color: $rp-text-main;
     margin: 0 2rem;
@@ -13,4 +14,10 @@ body {
 ul {
     list-style-type: "";
     padding: 0;
+}
+
+.psuedo-link {
+    &:hover {
+        cursor: pointer;
+    }
 }

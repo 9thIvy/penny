@@ -1,5 +1,5 @@
 @use "/src/styles/partials/gloabal" as *;
-.chrselHeader {
+.landingpage-header {
     display: flex;
     align-items: baseline;
     gap: 1rem;
@@ -7,7 +7,7 @@
     margin-bottom: 1rem;
 }
 
-.createchar {
+.system-wrapper {
     display: flex;
-    justify-content: center;
+    gap: 1rem;
 }

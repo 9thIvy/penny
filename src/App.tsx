@@ -1,18 +1,14 @@
 import { Router, Route } from "preact-router";
+import "./App.css";
 import LandingPage from "./pages/LandingPage/LandingPage";
-import "./App.scss";
 import CharacterSelectPage from "./pages/CharacterSelectPage/CharacterSelectPage";
-import CharacterEditPage from "./pages/CharacterEditPage/CharacterEditPage";
-import CharacterCreatePage from "./pages/CharacterCreatePage/CharacterCreatePage";
-import CharacterReadPage from "./pages/CharacterReadPage/CharacterReadPage";
+import CharacterViewPage from "./pages/CharacterViewPage/CharacterViewPage";
 function App() {
   return (
     <Router>
       <Route path="/" component={LandingPage} />
-      <Route path="character-select" component={CharacterSelectPage} />
-      <Route path="character-edit" component={CharacterEditPage} />
-      <Route path="character-create" component={CharacterCreatePage} />
-      <Route path="character-read" component={CharacterReadPage} />
+      <Route path="/character-select" component={CharacterSelectPage} />
+      <Route path="/character-view" component={CharacterViewPage} />
     </Router>
   );
 }
