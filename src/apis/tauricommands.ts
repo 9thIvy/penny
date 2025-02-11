@@ -1,8 +1,6 @@
 import {
   writeTextFile,
-  writeFile,
   BaseDirectory,
-  readDir,
   exists,
   mkdir,
 } from "@tauri-apps/plugin-fs";
@@ -34,7 +32,9 @@ const initialiseBoilerData = async (): Promise<boolean> => {
   return true;
 };
 
-const downloadSystems1 = async (): Promise<boolean> => {
+//probably cause conflict with function of same name in mvp.ts
+//TODO: don't download if it already exists in APPDATA
+const downloadSystems = async (): Promise<boolean> => {
   try {
     const response = await fetch(
       "https://raw.githubusercontent.com/9thIvy/dime/refs/heads/main/yags.rpg",
@@ -57,4 +57,4 @@ const downloadSystems1 = async (): Promise<boolean> => {
   }
 };
 
-export { initialiseBoilerData, downloadSystems1 };
+export { initialiseBoilerData, downloadSystems };
