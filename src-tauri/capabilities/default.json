@@ -7,9 +7,15 @@
     "core:default",
     "opener:default",
     "fs:default",
+    "fs:allow-appdata-read-recursive",
+    "fs:allow-appdata-write-recursive",
+    "fs:allow-appdata-meta-recursive",
+    "fs:scope-appdata-recursive",
+    "fs:scope-appdata",
+    "fs:scope-appdata-index",
     {
       "identifier": "fs:allow-exists",
-      "allow": [{ "path": "$APPDATA/*" }]
+      "allow": [{ "path": "$APPDATA" }, { "path": "$APPDATA/**" }]
     }
   ]
 }
