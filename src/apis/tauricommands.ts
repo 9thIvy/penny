@@ -46,9 +46,10 @@ const downloadSystems = async (): Promise<boolean> => {
     const data = await response.json();
     const data2 = await response2.json();
 
-    //maybe doesn't need await?
-    await writeToAppData(`data/systems/${data.name}`, JSON.stringify(data));
-    await writeToAppData(`data/systems/${data2.name}`, JSON.stringify(data2));
+    await Promise.all([
+      writeToAppData(`data/systems/${data.name}`, JSON.stringify(data)),
+      writeToAppData(`data/systems/${data2.name}`, JSON.stringify(data2)),
+    ]);
 
     return true;
   } catch (error) {
