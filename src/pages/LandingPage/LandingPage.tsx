@@ -2,10 +2,12 @@ import { FunctionalComponent } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import "./LandingPage.scss";
 import {
+  blankCharacter,
   cachedSystems,
   downloadSystems,
   loadSystems,
   RPGSystem,
+  setCurrentCharacter,
 } from "../../apis/mvp";
 import SystemContainer from "../../components/SystemContainer/SystemContainer";
 const LandingPage: FunctionalComponent = () => {
@@ -22,6 +24,7 @@ const LandingPage: FunctionalComponent = () => {
       } catch (error) {
         console.error(error);
       } finally {
+        setCurrentCharacter(blankCharacter);
         setLoading(false);
       }
     };

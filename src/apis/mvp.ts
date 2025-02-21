@@ -45,11 +45,37 @@ interface Character {
   wisdom: string;
   intelligence: string;
   charisma: string;
-  image?: string;
   skills0: Skill[]; // skills part of yags
+  image?: string;
   skills1?: Skill[]; // techniques part of yags
   largeInput?: string;
 }
+
+const blankCharacter: Character = {
+  id: "",
+  name: "",
+  age: "",
+  gender: "",
+  profession: "",
+  Acrobatics: "",
+  AnimalHandling: "",
+  Arcana: "",
+  Athletics: "",
+  Deception: "",
+  History: "",
+  system: "",
+  attributes: [],
+  dexterity: "",
+  strength: "",
+  constitution: "",
+  wisdom: "",
+  intelligence: "",
+  charisma: "",
+  skills0: [],
+  skills1: [],
+  image: undefined,
+  largeInput: "",
+};
 
 interface RPGSystem {
   name: string;
@@ -120,7 +146,7 @@ const saveCharacter = (newCharacter: Character) => {
     : [];
 
   const existingIndex = characters.findIndex(
-    (character) => character.id === newCharacter.id,
+    (character) => character.name === newCharacter.name,
   );
 
   if (existingIndex !== -1) {
@@ -202,4 +228,5 @@ export {
   setCurrentCharacter,
   getCharacters,
   saveCharacter,
+  blankCharacter,
 };
