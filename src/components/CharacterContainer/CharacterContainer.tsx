@@ -20,7 +20,7 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
   };
 
   const handleDelete = () => {
-    console.log("character id: ", character.id);
+    console.log("character name: ", character.name); //not going to show bc of window reload at bottom
 
     const storedCharacters = localStorage.getItem("characters");
     let characters: Character[] = storedCharacters
@@ -28,7 +28,7 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
       : [];
 
     const updatedCharacters = characters.filter(
-      (char) => char.id !== character.id,
+      (char) => char.name !== character.name,
     );
 
     localStorage.setItem("characters", JSON.stringify(updatedCharacters));
@@ -59,7 +59,7 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
       Deception: "",
       History: "",
     });
-    window.location.reload();
+    window.location.reload(); //re-render page to show updates.
   };
   return (
     <>

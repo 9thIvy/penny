@@ -10,6 +10,7 @@ import {
   getSystem,
   RPGSystem,
   saveCharacter,
+  setCurrentCharacter,
 } from "../../apis/mvp";
 import InfoTextInput from "../../components/CharacterSheet/InfoTextInput/InfoTextInput";
 import "./CharacterViewPage.scss";
@@ -39,6 +40,7 @@ const CharacterViewPage: FunctionalComponent = () => {
       const updatedChar = { ...currentChar, [field]: value };
       setCurrentChar(updatedChar);
       saveCharacter(updatedChar);
+      setCurrentCharacter(updatedChar);
     }
   };
 

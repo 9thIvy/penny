@@ -1,8 +1,13 @@
 import { FunctionalComponent } from "preact";
 import "./NewCharacterContainer.scss";
 import AddIcon from "@mui/icons-material/Add";
+import { useEffect } from "preact/hooks";
+import { blankCharacter, setCurrentCharacter } from "../../apis/mvp";
 
 const NewCharacterContainer: FunctionalComponent = () => {
+  useEffect(() => {
+    setCurrentCharacter(blankCharacter);
+  }, []);
   return (
     <a href={`/character-view`}>
       <div className={"newCharacterContainer"}>
