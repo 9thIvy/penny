@@ -13,6 +13,7 @@ const Header: FunctionalComponent<props> = ({ url }) => {
   };
   return (
     <>
+      {/* Ignore error, it works fine */}
       <Link href={url} onContextMenu={handleRightClick}>
         <ArrowBackIcon className="header__back-arrow" />
       </Link>

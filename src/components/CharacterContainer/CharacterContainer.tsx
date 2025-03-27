@@ -2,7 +2,7 @@ import { FunctionalComponent } from "preact";
 import { route } from "preact-router";
 import "./CharacterContainer.scss";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Character, setCurrentCharacter } from "../../apis/mvp";
+import { blankCharacter, Character, setCurrentCharacter } from "../../apis/mvp";
 
 interface props {
   character: Character;
@@ -32,40 +32,14 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
     );
 
     localStorage.setItem("characters", JSON.stringify(updatedCharacters));
-    setCurrentCharacter({
-      id: "",
-      name: "",
-      age: "",
-      gender: "",
-      profession: "",
-      system: "test",
-      attributes: [],
-      skills0: [
-        { name: "test", extra: 1 },
-        { name: "test2", extra: 1 },
-      ],
-      skills1: [],
-      dexterity: "",
-      strength: "",
-      constitution: "",
-      wisdom: "",
-      intelligence: "",
-      charisma: "",
-      largeInput: "",
-      Acrobatics: "",
-      AnimalHandling: "",
-      Arcana: "",
-      Athletics: "",
-      Deception: "",
-      History: "",
-    });
+    setCurrentCharacter(blankCharacter);
     window.location.reload(); //re-render page to show updates.
   };
   return (
     <>
-      <div className={`character-container`}>
-        <div className={`psuedo-link`} onClick={handleClick}>
-          <div className={`character-container__image`}>
+      <div className={"character-container"}>
+        <div className={"psuedo-link"} onClick={handleClick}>
+          <div className={"character-container__image"}>
             <img
               src={imageUrl}
               className={`character-container__image--image`}
