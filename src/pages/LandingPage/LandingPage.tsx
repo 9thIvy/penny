@@ -1,13 +1,14 @@
 import { FunctionalComponent } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import "./LandingPage.scss";
+import { initialiseBoilerData, loadSystemMeta } from "../../apis/tauricommands";
 import {
   blankCharacter,
-  cachedSystems,
-  downloadSystems,
-  loadSystems,
+  // cachedSystems,
+  // downloadSystems,
+  // loadSystems,
   RPGSystem,
-  setCurrentCharacter,
+  // setCurrentCharacter,
 } from "../../apis/mvp";
 import SystemContainer from "../../components/SystemContainer/SystemContainer";
 const LandingPage: FunctionalComponent = () => {
@@ -15,19 +16,25 @@ const LandingPage: FunctionalComponent = () => {
   const [systems, setSystems] = useState<RPGSystem[]>([]);
 
   useEffect(() => {
+    console.log("TODO: download systems, set character to blank.");
+    /*
+    Inits ~/.local/share/io.github.penitence.penny/data/systems
+    */
     const fetchSystemsData = async () => {
+      initialiseBoilerData();
       try {
-        if (!cachedSystems()) {
-          downloadSystems();
-        }
-        setSystems(loadSystems());
+        const s = await loadSystemMeta();
+        setSystems(s);
       } catch (error) {
-        console.error(error);
+        console.error(
+          "LandingPage.tsx failed to load or set system meta\n",
+          error,
+        );
       } finally {
-        setCurrentCharacter(blankCharacter);
         setLoading(false);
       }
     };
+
     fetchSystemsData();
   }, []);
   if (isLoading) {
@@ -38,14 +45,13 @@ const LandingPage: FunctionalComponent = () => {
       <div className={"landingpage-header"}>
         <h1>My RPG Systems</h1>
       </div>
-      <p>Pick which role playing game system you would like to play.</p>
       <div className={`system-wrapper`}>
         {systems.length > 0 ? (
           systems.map((system, index) => (
             <SystemContainer key={index} system={system} />
           ))
         ) : (
-          <p>No systems available</p>
+          <p>No systems available.</p>
         )}
       </div>
     </>

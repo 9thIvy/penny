@@ -1,12 +1,37 @@
 import {
   writeTextFile,
   BaseDirectory,
-  exists,
   mkdir,
+  readDir,
+  readTextFile,
 } from "@tauri-apps/plugin-fs";
+import type { RPGSystem } from "./mvp";
 
-const doesExist = async (location: string): Promise<boolean> => {
-  return await exists(location, { baseDir: BaseDirectory.AppData });
+const loadSystemMeta = async (): Promise<RPGSystem[]> => {
+  const entries = await readDir("./data/systems", {
+    baseDir: BaseDirectory.AppData,
+  });
+  console.log(entries);
+
+  const readPromises = entries.map(async (entry) => {
+    try {
+      /*
+      TODO: There *HAS* to be a better way to prefix things.
+      Maybe BaseDir can be changed to a subdir of appdata???
+      I can't find anything >_>
+      */
+      const content = await readTextFile("./data/systems/" + entry.name, {
+        baseDir: BaseDirectory.AppData,
+      });
+      return JSON.parse(content) as RPGSystem;
+    } catch (error) {
+      console.log(`Failed to read or parse file ${entry.name}:`, error);
+      return null;
+    }
+  });
+
+  const results = await Promise.all(readPromises);
+  return results.filter((r): r is RPGSystem => r !== null);
 };
 
 const writeToAppData = async (
@@ -19,17 +44,16 @@ const writeToAppData = async (
 };
 
 const initialiseBoilerData = async (): Promise<boolean> => {
-  const dataExists = await doesExist("data");
-  const systemsExists = await doesExist("data/systems");
-
-  if (!dataExists) {
-    await mkdir("data", { baseDir: BaseDirectory.AppData });
+  try {
+    await mkdir("data/systems", {
+      baseDir: BaseDirectory.AppData,
+      recursive: true,
+    });
+    return true;
+  } catch (error) {
+    console.log("initBoilerData failed: ", error);
+    return false;
   }
-  if (!systemsExists) {
-    await mkdir("data/systems", { baseDir: BaseDirectory.AppData });
-  }
-
-  return true;
 };
 
 //probably cause conflict with function of same name in mvp.ts
@@ -58,4 +82,9 @@ const downloadSystems = async (): Promise<boolean> => {
   }
 };
 
-export { initialiseBoilerData, downloadSystems };
+export {
+  initialiseBoilerData,
+  downloadSystems,
+  writeToAppData,
+  loadSystemMeta,
+};
