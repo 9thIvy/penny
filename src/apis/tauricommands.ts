@@ -5,13 +5,12 @@ import {
   readDir,
   readTextFile,
 } from "@tauri-apps/plugin-fs";
-import type { RPGSystem } from "./mvp";
+import type { RPGSystem, Character } from "./mvp";
 
 const loadSystemMeta = async (): Promise<RPGSystem[]> => {
   const entries = await readDir("./data/systems", {
     baseDir: BaseDirectory.AppData,
   });
-  console.log(entries);
 
   const readPromises = entries.map(async (entry) => {
     try {
@@ -34,6 +33,28 @@ const loadSystemMeta = async (): Promise<RPGSystem[]> => {
   return results.filter((r): r is RPGSystem => r !== null);
 };
 
+//filter later once we have state management
+const getCharacters = async (_filter?: string): Promise<Character[]> => {
+  const entries = await readDir("./data/chars", {
+    baseDir: BaseDirectory.AppData,
+  });
+
+  const readPromises = entries.map(async (entry) => {
+    try {
+      const content = await readTextFile("./data/chars/" + entry.name, {
+        baseDir: BaseDirectory.AppData,
+      });
+      return JSON.parse(content) as Character;
+    } catch (error) {
+      console.log(`Failed to read or parse file ${entry.name}`, error);
+      return null;
+    }
+  });
+
+  const results = await Promise.all(readPromises);
+  return results.filter((r): r is Character => r !== null);
+};
+
 const writeToAppData = async (
   location: string,
   contents: string,
@@ -46,6 +67,10 @@ const writeToAppData = async (
 const initialiseBoilerData = async (): Promise<boolean> => {
   try {
     await mkdir("data/systems", {
+      baseDir: BaseDirectory.AppData,
+      recursive: true,
+    });
+    await mkdir("data/chars", {
       baseDir: BaseDirectory.AppData,
       recursive: true,
     });
@@ -87,4 +112,5 @@ export {
   downloadSystems,
   writeToAppData,
   loadSystemMeta,
+  getCharacters,
 };
