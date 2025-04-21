@@ -33,6 +33,17 @@ const loadSystemMeta = async (): Promise<RPGSystem[]> => {
   return results.filter((r): r is RPGSystem => r !== null);
 };
 
+const saveCharacter = async (char: Character): Promise<boolean> => {
+  try {
+    await writeTextFile(`./data/chars/${char.name}`, JSON.stringify(char), {
+      baseDir: BaseDirectory.AppData,
+    });
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
 //filter later once we have state management
 const getCharacters = async (_filter?: string): Promise<Character[]> => {
   const entries = await readDir("./data/chars", {
@@ -113,4 +124,5 @@ export {
   writeToAppData,
   loadSystemMeta,
   getCharacters,
+  saveCharacter,
 };
