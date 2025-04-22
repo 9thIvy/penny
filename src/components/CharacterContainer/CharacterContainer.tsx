@@ -2,8 +2,8 @@ import { FunctionalComponent } from "preact";
 import { route } from "preact-router";
 import "./CharacterContainer.scss";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { blankCharacter, Character, setCurrentCharacter } from "../../apis/mvp";
-
+// import { blankCharacter, Character, setCurrentCharacter } from "../../apis/mvp";
+import { Character } from "../../apis/mvp";
 interface props {
   character: Character;
 }
@@ -15,24 +15,25 @@ const CharacterContainer: FunctionalComponent<props> = ({ character }) => {
     : character.image;
 
   const handleClick = () => {
-    setCurrentCharacter(character);
+    // setCurrentCharacter(character);
     route("character-view");
   };
 
   const handleDelete = () => {
-    console.log("character name: ", character.name); //not going to show bc of window reload at bottom
+    console.log("TODO! delete character name: ", character.name); //not going to show bc of window reload at bottom
 
-    const storedCharacters = localStorage.getItem("characters");
-    let characters: Character[] = storedCharacters
-      ? JSON.parse(storedCharacters)
-      : [];
+    //Old code to be rewritten with rustato
+    // const storedCharacters = localStorage.getItem("characters");
+    // let characters: Character[] = storedCharacters
+    //   ? JSON.parse(storedCharacters)
+    //   : [];
 
-    const updatedCharacters = characters.filter(
-      (char) => char.name !== character.name,
-    );
+    // const updatedCharacters = characters.filter(
+    //   (char) => char.name !== character.name,
+    // );
 
-    localStorage.setItem("characters", JSON.stringify(updatedCharacters));
-    setCurrentCharacter(blankCharacter);
+    // localStorage.setItem("characters", JSON.stringify(updatedCharacters));
+    // setCurrentCharacter(blankCharacter);
     window.location.reload(); //re-render page to show updates.
   };
   return (

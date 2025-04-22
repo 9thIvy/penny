@@ -1,18 +1,30 @@
 import { FunctionalComponent } from "preact";
 import Header from "../../components/Header/Header";
-import { Character, getCharacters, getCurrentSystemName } from "../../apis/mvp";
+import { Character } from "../../apis/mvp";
 import "./CharacterSelectPage.scss";
 import { useEffect, useState } from "preact/hooks";
 import CharacterContainer from "../../components/CharacterContainer/CharacterContainer";
 import NewCharacterContainer from "../../components/NewCharacterContainer/NewCharacterContainer";
+import { getCharacters } from "../../apis/tauricommands";
 
 const CharacterSelectPage: FunctionalComponent = () => {
   const [currentSystem, setCurrentSystem] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]);
+  //set loading like in LandingPage?
   useEffect(() => {
-    const system = getCurrentSystemName();
-    setCurrentSystem(system as unknown as string);
-    setCharacters(getCharacters(currentSystem)); //set character array to a filtered list
+    console.log("TODO: get sys name, set it, filter characters?");
+    setCurrentSystem("TODO: state management");
+    //get current system
+
+    const init = async () => {
+      const c = await getCharacters();
+      setCharacters(c);
+    };
+    init();
+
+    //filter characters to ones for the current system?
+    //select characters just in subdir?
+    //choices...
   }, []);
 
   return (

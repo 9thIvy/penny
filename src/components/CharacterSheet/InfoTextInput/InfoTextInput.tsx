@@ -21,6 +21,7 @@ const InfoTextInput: FunctionalComponent<Props> = ({
     onSave(a);
   };
 
+  //roll dice on right click. terrible way to do this
   const handleRightClickInternal = (e: Event) => {
     e.preventDefault();
     if (onRightClick) {
@@ -38,6 +39,7 @@ const InfoTextInput: FunctionalComponent<Props> = ({
           const input = e.target as HTMLInputElement;
           setA(input.value);
         }}
+        // save when not focused
         onBlur={handleBlur}
         onContextMenu={handleRightClickInternal}
       />

@@ -1,46 +1,27 @@
 import { FunctionalComponent } from "preact";
 import Header from "../../components/Header/Header";
 import { useEffect, useState } from "preact/hooks";
-
-import {
-  Character,
-  createNewCharacter,
-  getCurrentCharacter,
-  getCurrentSystemName,
-  getSystem,
-  RPGSystem,
-  saveCharacter,
-  setCurrentCharacter,
-} from "../../apis/mvp";
+import { saveCharacter } from "../../apis/tauricommands";
+import { Character, createNewCharacter } from "../../apis/mvp";
 import InfoTextInput from "../../components/CharacterSheet/InfoTextInput/InfoTextInput";
 import "./CharacterViewPage.scss";
 
 const CharacterViewPage: FunctionalComponent = () => {
   const [currentChar, setCurrentChar] = useState<Character | null>(null);
-  const [currentSystem, setCurrentSystem] = useState<RPGSystem | null>(null);
   const [dieVal, setDieVal] = useState<string>("");
 
   useEffect(() => {
-    let systemName = getCurrentSystemName();
-    if (systemName) {
-      const systemData = getSystem(systemName);
-      const system = JSON.parse(JSON.stringify(systemData)) as RPGSystem;
-      setCurrentSystem(system);
-    }
+    //get system name, set current system
+    //get char data if applicable and set it
 
-    let charData = getCurrentCharacter();
-    if (charData) {
-      setCurrentChar(JSON.parse(charData));
-    } else {
-      setCurrentChar(createNewCharacter());
-    }
+    setCurrentChar(createNewCharacter);
   }, []);
   const handleSave = (field: string, value: string) => {
     if (currentChar) {
       const updatedChar = { ...currentChar, [field]: value };
       setCurrentChar(updatedChar);
+      console.log("TODO: save character, set current character");
       saveCharacter(updatedChar);
-      setCurrentCharacter(updatedChar);
     }
   };
 

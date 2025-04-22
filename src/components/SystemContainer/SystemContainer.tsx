@@ -1,5 +1,5 @@
 import { FunctionalComponent } from "preact";
-import { RPGSystem, setCurrentSystemName } from "../../apis/mvp";
+import { RPGSystem } from "../../apis/mvp";
 import "./SystemContainer.scss";
 import { route } from "preact-router";
 
@@ -12,7 +12,7 @@ const SystemContainer: FunctionalComponent<props> = ({ system }) => {
   const imageUrl = useFallbackImage ? "/src/assets/preact.svg" : system.image;
 
   const handleClick = () => {
-    setCurrentSystemName(system.name);
+    console.log("TODO: current system: ", system.name);
     route("character-select");
   };
 
